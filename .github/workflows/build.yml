@@ -1,0 +1,57 @@
+name: Build visual2.voz
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  android:
+    name: Build APK (Android)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.3'
+          channel: 'stable'
+
+      - run: flutter pub get
+      - run: flutter build apk --release --no-tree-shake-icons
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: visual2-voz-release-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
+
+  ios:
+    name: Build IPA (iOS — sem assinatura)
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.3'
+          channel: 'stable'
+
+      - run: flutter pub get
+      - run: flutter build ios --release --no-codesign
+
+      - name: Empacotar .app
+        run: |
+          cd build/ios/iphoneos
+          mkdir -p Payload
+          mv Runner.app Payload/
+          zip -r visual2-voz-unsigned.ipa Payload
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: visual2-voz-ios-unsigned
+          path: build/ios/iphoneos/visual2-voz-unsigned.ipa
