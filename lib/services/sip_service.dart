@@ -122,7 +122,7 @@ class SipService extends ChangeNotifier implements SipUaHelperListener {
         ? target
         : 'sip:${target.trim()}@${_account.domain}';
     try {
-      return await _helper.call(dest, voiceOnly: !video);
+      return await _helper.call(dest, voiceonly: !video);
     } catch (e) {
       debugPrint('Erro ao discar: $e');
       return false;
@@ -134,12 +134,7 @@ class SipService extends ChangeNotifier implements SipUaHelperListener {
   }
 
   void answer({bool video = false}) {
-    final mediaConstraints = <String, dynamic>{
-      'audio': true,
-      'video': video,
-    };
-    _currentCall?.answer(_helper.buildCallOptions(!video),
-        mediaConstraints: mediaConstraints);
+    _currentCall?.answer(_helper.buildCallOptions(!video));
   }
 
   void reject() {
