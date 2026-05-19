@@ -90,7 +90,6 @@ class SipService extends ChangeNotifier implements SipUaHelperListener {
     settings.displayName =
         account.displayName.isEmpty ? account.username : account.displayName;
     settings.userAgent = 'visual2.voz/2.0 (Flutter)';
-    settings.transportType = TransportType.WSS;
     settings.register = account.registerOnStart;
     settings.sessionTimers = false;
     settings.iceServers = const [
