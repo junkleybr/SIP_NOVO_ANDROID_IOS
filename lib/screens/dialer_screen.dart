@@ -88,11 +88,13 @@ class _DialerScreenState extends State<DialerScreen> {
                   if (_number.isNotEmpty)
                     Positioned(
                       right: 0,
-                      child: IconButton(
-                        onPressed: _backspace,
+                      child: GestureDetector(
                         onLongPress: _clear,
-                        icon: const Icon(Icons.backspace_outlined),
-                        tooltip: 'Apagar (segure para limpar)',
+                        child: IconButton(
+                          onPressed: _backspace,
+                          icon: const Icon(Icons.backspace_outlined),
+                          tooltip: 'Apagar (segure para limpar)',
+                        ),
                       ),
                     ),
                 ],

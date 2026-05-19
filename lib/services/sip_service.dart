@@ -271,7 +271,4 @@ class SipService extends ChangeNotifier implements SipUaHelperListener {
 
   @override
   void onNewNotify(Notify ntf) {}
-
-  @override
-  void onNewReinvite(ReInvite event) {}
 }
